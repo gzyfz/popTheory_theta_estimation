@@ -42,7 +42,7 @@ result = subprocess.run(command, shell=True, stdout=subprocess.PIPE)
 
 # Decode the output from bytes to string
 msms_output = result.stdout.decode('utf-8')
-
+print(result)
 # Parse the output to get sequences
 haplotype_sequences = parse_msms_output(msms_output, num_sequences)
 
