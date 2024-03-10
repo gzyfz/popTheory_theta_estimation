@@ -63,7 +63,8 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training loop
 loss_values = []
-num_epochs = 2
+num_epochs = 8
+
 for epoch in range(num_epochs):
     for i, (matrices, thetas) in enumerate(snp_loader):
         optimizer.zero_grad()
@@ -82,3 +83,25 @@ plt.ylabel('Loss')
 plt.title('Loss Function Over Time')
 plt.legend()
 plt.show()
+
+input = None
+
+for i, (matrices, thetas) in enumerate(snp_loader):
+    if i == 0:
+        input = matrices
+
+from torch.utils.tensorboard import SummaryWriter
+
+# Create a SummaryWriter instance (logs will be saved in the 'runs' directory)
+writer = SummaryWriter('runs/model_visualization')
+
+
+# To use add_graph, you need to provide a dummy input tensor that matches the input shape the model expects
+# For example, if your model expects a 3-channel image of size 224x224
+dummy_input = input
+
+# Add the model graph to TensorBoard
+writer.add_graph(model, dummy_input)
+
+# Close the writer
+writer.close()
